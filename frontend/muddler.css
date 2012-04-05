@@ -14,7 +14,7 @@ div#board {
 	overflow-y: visible;
 	min-width: 800px;
 	width: 100%;
-	height: 80%;
+	height: 75%;
 	border: 1px solid #848388;
 }
 
@@ -22,7 +22,7 @@ input#inp {
 	border:solid 1px #848388;
 	position: relative;
 	float: left;
-	width: 89%;
+	width: 88%;
 	height: 25px;
 	margin-top: 5px;
 	padding: 0 3px 0 3px;
@@ -35,7 +35,7 @@ button#but {
 	border:solid 1px #848388;
 	position: relative;
 	float: right;
-	width: 10%;
+	width: 11%;
 	height: 25px;
 	margin-top: 5px;
 	min-width: 100px;
@@ -62,16 +62,4 @@ div.row {
 
 div.header, div.footer {
 	height: 50px;
-}
-
-div.header {
-	top: 0;
-	position: absolute;
-	width: 100%;
-}
-
-div.footer {
-	position: absolute;
-	width: 100%;
-	bottom: 0px;
 }
