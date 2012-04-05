@@ -36,6 +36,10 @@ span.message {
 	margin-left: 10px;
 }
 
+span.sender_name {
+	font-weight: bold;
+}
+
 div.time, div.sender, div.chat{
 	position: relative;
 	float: left;
