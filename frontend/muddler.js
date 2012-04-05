@@ -9,29 +9,36 @@ function nowTime(cb) {
 	cb('['+ hour + ':'+ min + ':' + sec + ']');
 }
 
-function sendMessage() {
+function sendMessage(socket) {
 	var board = document.getElementById('board');
-		var input = document.getElementById('inp');
-		nowTime(function(time) {
+	var input = document.getElementById('inp');
+	nowTime(function(time) {
 			var html= '<div class="row"><div class="time">'+time+'</div><div class="sender">[<span class="sender_name">me</span>]:</div>';
 			html+= '<span class="message">'+input.value+'</span>';
 			html+= '</div>';
 			board.innerHTML+= html;
 			board.scrollTop = 9999;
-			input.value = '';
-		});
+			socket.on('server', function (data) {
+				console.log('a');
+    		console.log(data);
+    		socket.emit('my other event', { my: 'data' });
+  		});
+			input.value = ''
+	});
 }
 
 $(document).ready(function() {
 
+	var socket = io.connect('http://127.0.0.1:3030/');
+
 	$('#inp').keyup(function(e) {
     if(e.keyCode == 13){
- 			sendMessage(); 
+			sendMessage(socket);
     }
   });
 
 	$('#but').click(function() {
-		sendMessage();
+		sendMessage(socket);
 	});
 
 });
