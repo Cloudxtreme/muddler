@@ -1,0 +1,48 @@
+body {
+	padding: 0px;
+	margin: 0px;
+}
+
+div.content {
+	margin: 5%;
+}
+
+div#board {
+	overflow: auto;
+	overflow-y: visible
+	min-width: 800px;
+	width: 100%;
+	height: 80%;
+	border: 1px solid;
+}
+
+input#inp {
+	position: relative;
+	float: left;
+	width: 89%;
+	min-width: 450px;
+	font-family: 'Monospace';
+	font-size: 14px;
+}
+
+button#but {
+	position: relative;
+	float: right;
+	width: 10%;
+	min-width: 100px;
+}
+
+span.message {
+	margin-left: 10px;
+}
+
+div.time, div.sender, div.chat{
+	position: relative;
+	float: left;
+}
+
+div.row {
+	width: 100%;
+	font-family: 'Monospace';
+	font-size: 14px;
+}
