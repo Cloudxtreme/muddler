@@ -20,5 +20,19 @@ function getSysMes(command, params, cb) {
 	});
 }
 
+function createNewAccount(email, pass, cb) {
+	db.collection('accounts', function(err, collection) {
+		collection.findOne({"email":email}, function(err,doc) {
+			if(doc != null) {
+				cb(false);
+			} else {
+				collection.insert({"email": email, "pass":pass});
+				cb(true);
+			}
+		});
+	});
+}
+
 mongoConnect();
 exports.getSysMes = getSysMes;
+exports.createNewAccount = createNewAccount;

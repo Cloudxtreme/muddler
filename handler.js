@@ -58,10 +58,16 @@ function reg(socket, params, cb) {
 			});
 		}
 		if(res == true) {
-			console.log('t');
-			dbf.getSysMes('reg', 'true', function(text) {
-				console.log('cb');
-				cb({'sender':'server', 'type':'text', 'text':text});
+			dbf.createNewAccount(email, pass, function(status) {
+				if(status == false) {
+					dbf.getSysMes('reg', 'error', function(text) {
+						cb({'sender':'server', 'type':'text', 'text':text});
+					});
+				} else {
+					dbf.getSysMes('reg', 'true', function(text) {
+						cb({'sender':'server', 'type':'text', 'text':text});
+					});
+				}
 			});
 		}
 	});
