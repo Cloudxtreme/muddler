@@ -1,3 +1,9 @@
+function checkOffline(socket) {
+	if(socket.socket.connected == false) {
+		printMessage('<span class="systemMessage">Соединение с сервером потеряно.</span>', 'server');
+	}
+}
+
 function nowTime(cb) {
 	var date = new Date();
 	var hour = date.getHours();
@@ -45,17 +51,15 @@ $(document).ready(function() {
 		});
 	});
 
-	socket.on('disonnect', function(data) {
-		console.log(data);
-	});
-
 	$('#inp').keyup(function(e) {
     if(e.keyCode == 13){
+    	checkOffline(socket);
 			sendMessage(socket);
     }
   });
 
 	$('#but').click(function() {
+		checkOffline(socket);
 		sendMessage(socket);
 	});
 
