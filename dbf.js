@@ -12,9 +12,9 @@ function mongoConnect() {
 
 // Game Functions:
 
-function getSysMes(command, cb) {
+function getSysMes(command, params, cb) {
 	db.collection('messages', function(err, collection) {
-		collection.findOne({type:'system', command:'list'}, function(err,doc) {
+		collection.findOne({type:'system', command: command, params: params}, function(err,doc) {
 			cb(doc.text);
 		});
 	});

@@ -1,4 +1,5 @@
 var dbf = require('./dbf');
+var userfunc = require('./userfunc');
 
 function parser(socket, msg, cb) {
 	if(msg.substring(0, 1) == '/') {
@@ -23,7 +24,7 @@ function parser(socket, msg, cb) {
 }
 
 function list(socket, params, cb) {
-	dbf.getSysMes('list', function(text) {
+	dbf.getSysMes('list', '', function(text) {
 		var response = {'sender':'server','type':'text','text': text};
 		cb(response);
 	});
@@ -44,6 +45,26 @@ function server(socket, params, cb) {
 
 	var response = {'sender': 'server', 'type': 'text', 'text':'<b>Информация о сервере:</b><br>Пользователей он-лайн: <b>' + online + '</b><br>Сервер работает: <b>'+uptime.hour+':'+uptime.min+':'+uptime.sec+'</b>'};
 	cb(response);
+}
+
+function reg(socket, params, cb) {
+	var email = params[0];
+	var pass = params[1];
+
+	userfunc.validateEmail(email, function(res) {
+		if(res == false) {
+			dbf.getSysMes('reg', 'false', function(text) {
+				cb({'sender':'server', 'type':'text', 'text':text});
+			});
+		}
+		if(res == true) {
+			console.log('t');
+			dbf.getSysMes('reg', 'true', function(text) {
+				console.log('cb');
+				cb({'sender':'server', 'type':'text', 'text':text});
+			});
+		}
+	});
 }
 
 exports.parser = parser;
