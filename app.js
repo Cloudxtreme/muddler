@@ -20,13 +20,19 @@ app.configure('production', function(){
 });
 
 app.get('/', routes.index);
+app.all('/muddler.css', function(req, res) {
+  res.sendfile('frontend/muddler.css');
+});
+app.all('/muddler.js', function(req, res) {
+  res.sendfile('frontend/muddler.js');
+});
 
 io.sockets.on('connection', function (socket) {
   socket.json.send({'event': 'connected', 'name': socket.id});
 
-  socket.on('server', function (msg) {
-    socket.json.send({'event':'ok'});
+  socket.on('message', function (msg) {
     console.log(msg);
+    socket.json.send({'event':'ok'});
   });
 
   socket.on('disconnect', function() {
