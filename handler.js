@@ -1,3 +1,5 @@
+var dbf = require('./dbf');
+
 function parser(socket, msg, cb) {
 	if(msg.substring(0, 1) == '/') {
 		var string = msg.split(' ');
@@ -21,12 +23,14 @@ function parser(socket, msg, cb) {
 }
 
 function list(socket, params, cb) {
-	var text = {'sender':'server','type':'text','text': '<b>Список комманд:</b><br><b>/list</b> - эта подсказка.<br><b>/server</b> - информация о сервере.'};
-	cb(text);
+	dbf.getSysMes('list', function(text) {
+		var response = {'sender':'server','type':'text','text': text};
+		cb(response);
+	});
 }
 
 function server(socket, params, cb) {
-	var online = socket.manager.server.connections - 1;
+	var online = socket.manager.server.connections;
 	var uptime = {};
 	uptime.all = Math.floor(process.uptime());
 	var date = new Date();
