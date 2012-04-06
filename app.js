@@ -13,6 +13,14 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
 });
 
+io.set('transports', [
+  'websocket'
+, 'flashsocket'
+, 'htmlfile'
+, 'xhr-polling'
+, 'jsonp-polling'
+]);
+
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });

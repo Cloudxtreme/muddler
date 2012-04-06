@@ -25,19 +25,28 @@ function sendMessage(socket) {
 	if(input.value != '') {
 		printMessage(input.value, 'me');
 		socket.send(input.value);
-		input.value = ''
+		input.value = '';
 	}
 }
 
 $(document).ready(function() {
 
-	var socket = io.connect('http://127.0.0.1:3030/');
+	if (navigator.userAgent.toLowerCase().indexOf('chrome') != -1) {
+		var socket = io.connect('http://127.0.0.1:3030/', {'transports': ['xhr-polling']});
+	} else {
+		var socket = io.connect('http://127.0.0.1:3030/');
+	}
+
 	socket.on('connect', function() {
 		socket.on('message', function(msg) {
 			if(msg.type == 'text') {
 				printMessage(msg.text, msg.sender);
 			}
 		});
+	});
+
+	socket.on('disonnect', function(data) {
+		console.log(data);
 	});
 
 	$('#inp').keyup(function(e) {
