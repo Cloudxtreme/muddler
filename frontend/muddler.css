@@ -45,9 +45,11 @@ span.message {
 	margin-left: 10px;
 }
 
-span.sender_name {
-	font-weight: bold;
+span.systemMessage {
+	color: blue;
 }
+
+span.sender_server { font-weight: bold; color: red; text-transform: uppercase;/*font-variant:small-caps;*/}
 
 div.time, div.sender, div.chat{
 	position: relative;

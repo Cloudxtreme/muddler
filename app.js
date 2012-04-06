@@ -1,6 +1,8 @@
 var express = require('express')
   , routes = require('./routes');
 
+var handler = require('./handler');
+
 var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app);
 
@@ -20,19 +22,14 @@ app.configure('production', function(){
 });
 
 app.get('/', routes.index);
-app.all('/muddler.css', function(req, res) {
-  res.sendfile('frontend/muddler.css');
-});
-app.all('/muddler.js', function(req, res) {
-  res.sendfile('frontend/muddler.js');
-});
 
-io.sockets.on('connection', function (socket) {
-  socket.json.send({'event': 'connected', 'name': socket.id});
+io.sockets.on('connection', function(socket) {
+  socket.json.send({'sender':'server','type':'text','text': '<span class="systemMessage">Соединение с сервером установленно.</span>'});
 
-  socket.on('message', function (msg) {
-    console.log(msg);
-    socket.json.send({'event':'ok'});
+  socket.on('message', function(msg) {
+    handler.parser(socket, msg, function(res) {
+      socket.json.send(res);
+    });
   });
 
   socket.on('disconnect', function() {

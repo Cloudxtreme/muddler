@@ -9,19 +9,23 @@ function nowTime(cb) {
 	cb('['+ hour + ':'+ min + ':' + sec + ']');
 }
 
-function sendMessage(socket) {
+function printMessage(text, sender) {
 	var board = document.getElementById('board');
+	nowTime(function(time) {
+		var html= '<div class="row"><div class="time">'+time+'</div><div class="sender">[<span class="sender_'+sender+'">'+sender+'</span>]:</div>';
+		html+= '<span class="message">'+text+'</span>';
+		html+= '</div>';
+		board.innerHTML+= html;
+		board.scrollTop = 9999;
+	});
+}
+
+function sendMessage(socket) {
 	var input = document.getElementById('inp');
 	if(input.value != '') {
-	nowTime(function(time) {
-			var html= '<div class="row"><div class="time">'+time+'</div><div class="sender">[<span class="sender_name">me</span>]:</div>';
-			html+= '<span class="message">'+input.value+'</span>';
-			html+= '</div>';
-			board.innerHTML+= html;
-			board.scrollTop = 9999;
-			socket.send(input.value);
-			input.value = ''
-	});
+		printMessage(input.value, 'me');
+		socket.send(input.value);
+		input.value = ''
 	}
 }
 
@@ -30,7 +34,9 @@ $(document).ready(function() {
 	var socket = io.connect('http://127.0.0.1:3030/');
 	socket.on('connect', function() {
 		socket.on('message', function(msg) {
-			console.log(msg);
+			if(msg.type == 'text') {
+				printMessage(msg.text, msg.sender);
+			}
 		});
 	});
 
