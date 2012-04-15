@@ -1,7 +1,6 @@
 var express = require('express')
   , routes = require('./routes');
 
-var editor = require('./editor');
 var handler = require('./handler');
 
 var app = module.exports = express.createServer();
@@ -31,7 +30,6 @@ app.configure('production', function(){
 });
 
 app.get('/', routes.index);
-app.all('/editor', editor.editor);
 
 io.sockets.on('connection', function(socket) {
   socket.json.send({'sender':'server','type':'text','text': '<span class="systemMessage">Соединение с сервером установленно.</span>'});

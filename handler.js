@@ -24,7 +24,7 @@ function parser(socket, msg, cb) {
 }
 
 function list(socket, params, cb) {
-	dbf.getSysMes('list', '', function(text) {
+	dbf.getSysMes('list', 'none', function(text) {
 		var response = {'sender':'server','type':'text','text': text};
 		cb(response);
 	});
