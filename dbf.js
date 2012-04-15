@@ -1,38 +1,23 @@
-var db;
+var pg;
 
-function mongoConnect() {
-	var mongodb = require("mongodb"),
-    mongoserver = new mongodb.Server('127.0.0.1', 27017, ''),
-    db_connector = new mongodb.Db('muddler', mongoserver, '');
-
-	db_connector.open(function(err, dbs) {
-		db = dbs;
+function pgConnect() {
+	var pgc = require('pg');
+	pgc.connect('tcp://muddler:muddler@localhost/muddler', function(err, client) {
+		pg = client;
 	});
 }
 
-// Game Functions:
+pgConnect();
 
 function getSysMes(command, params, cb) {
-	db.collection('messages', function(err, collection) {
-		collection.findOne({type:'system', command: command, params: params}, function(err,doc) {
-			cb(doc.text);
-		});
+	pg.query('SELECT text FROM messages_system WHERE command = \'list\';', function(err, res) {
+		cb(res.rows[0].text);
 	});
 }
 
 function createNewAccount(email, pass, cb) {
-	db.collection('accounts', function(err, collection) {
-		collection.findOne({"email":email}, function(err,doc) {
-			if(doc != null) {
-				cb(false);
-			} else {
-				collection.insert({"email": email, "pass":pass});
-				cb(true);
-			}
-		});
-	});
+
 }
 
-mongoConnect();
 exports.getSysMes = getSysMes;
 exports.createNewAccount = createNewAccount;
